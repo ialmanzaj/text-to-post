@@ -1,0 +1,146 @@
+Component-Level PRD: TextImageGenerator
+
+Purpose:Enable users to paste structured text and export it as a well-formatted, readable image tailored for sharing on Twitter, Instagram, or LinkedIn.
+
+Key Features
+
+Live Text Parsing & Formatting
+
+Split input by newlines.
+
+Identify section titles (non-bulleted lines).
+
+Identify list items (lines starting with -, •, or *).
+
+Organize into Section[] objects containing title and items.
+
+Responsive Typography Engine
+
+Style text with system fonts for readability.
+
+Apply CSS-based layout rules:
+
+Font sizes: 18px (ideal), scale down to 14px if needed.
+
+Line height: 1.6 (default), scale to 1.3 if overflow is detected.
+
+Section spacing: 32px → 16px adaptively.
+
+Smart Auto-Fit Engine
+
+Detects if content height exceeds export target (e.g. 1920px).
+
+Dynamically scales typography and spacing to fit within bounds.
+
+Prevents text from becoming unreadable (never below 14px).
+
+Optionally show message if overflow persists.
+
+Identity Section UI
+
+Input fields for @handle and tagline.
+
+Always rendered at top of preview.
+
+Spacing: 4px between handle and tagline, 24px to divider.
+
+Optional Title Section
+
+Display only if title is present.
+
+Typography: 24px, bold, margin-bottom 1rem.
+
+Export System
+
+Uses html2canvas with 2x scale for crisp output.
+
+Temporarily overrides style for consistent export size.
+
+Supports dynamic formats (PNG, JPG) and platform sizes.
+
+Resets style after render.
+
+Editor UI (Left Panel)
+
+Inputs:
+
+Social handle, tagline, title
+
+Textarea for content (monospace font)
+
+Instructions for formatting input (section headers + bullets)
+
+Preview UI (Right Panel)
+
+Sticky preview container with live layout.
+
+Scrollable wrapper with export resolution bounding box.
+
+Preview reflects real export output.
+
+Layout Design Rules
+
+Element
+
+Value
+
+Image Width
+
+720–1080px
+
+Image Height
+
+up to 1920px
+
+Min Font Size
+
+14px
+
+Ideal Font Size
+
+16–18px
+
+Bullet Margin
+
+12px bottom spacing
+
+Section Spacing
+
+24px
+
+Rendering Strategy
+
+Track estimated rendered height using ref.scrollHeight.
+
+If height > target, rerun render with reduced font-size and spacing.
+
+Consider invisible "ghost preview" to calculate dimensions without visual flicker.
+
+Developer Notes
+
+Extract layout constants as CSS variables for quick tuning.
+
+Isolate preview styles into PreviewRenderer.tsx or PostCanvas.tsx for reusability.
+
+Modularize parser and layout scaling logic for unit testing.
+
+Future Improvements (V2+)
+
+Multi-slide post handling
+
+AI-based summary reducer
+
+Theme packs and font kits
+
+Draft save and versioning
+
+Success Criteria
+
+Content fits in export 95% of the time without user adjustment.
+
+Minimum font-size never violated.
+
+Users can go from paste to export in under 60 seconds.
+
+Layout renders in <150ms after paste.
+

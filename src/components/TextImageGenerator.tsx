@@ -1,21 +1,23 @@
 import React, { useState, useRef } from 'react';
 import { Download } from 'lucide-react';
 import html2canvas from 'html2canvas';
+import { ExportContainer } from './export/ExportContainer';
+import type { ExportDimensions } from './export/PlatformExportSelector';
 
 const MOBILE_WIDTH = 360; // px, typical mobile width
 const MOBILE_HEIGHT = 640; // px, typical mobile height
-const EXPORT_SIZES = [
-  { label: '1080x1350', width: 1080, height: 1350 },
-  { label: '1080x1920', width: 1080, height: 1920 },
-  { label: '1200x675', width: 1200, height: 675 },
-];
 
 const TextImageGenerator = () => {
   const [socialHandle, setSocialHandle] = useState('@username');
   const [tagline, setTagline] = useState('Sharing insights on AI, startups, and growth');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [exportSize, setExportSize] = useState(EXPORT_SIZES[0]);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportDimensions, setExportDimensions] = useState<ExportDimensions>({
+    width: 1200,
+    height: 675,
+    label: 'Landscape'
+  });
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -79,133 +81,139 @@ const TextImageGenerator = () => {
     );
   };
 
-  const exportAsImage = async () => {
+  const handleExport = async ({ platform, dimensions, format }: {
+    platform: string;
+    dimensions: ExportDimensions;
+    format: 'PNG' | 'JPG';
+  }) => {
     const node = canvasRef.current;
     if (!node) return;
-    // Set export size
-    const { width, height } = exportSize;
-    // Temporarily set the preview to export size
-    const prevStyle = node.style.cssText;
-    node.style.width = width + 'px';
-    node.style.height = height + 'px';
-    node.style.maxWidth = 'unset';
-    node.style.maxHeight = 'unset';
-    // Wait for style to apply
-    await new Promise(r => setTimeout(r, 50));
-    html2canvas(node, { scale: 2, backgroundColor: '#fff' }).then(canvas => {
+
+    setIsExporting(true);
+    try {
+      // Temporarily set the preview to export size
+      const prevStyle = node.style.cssText;
+      node.style.width = dimensions.width + 'px';
+      node.style.height = dimensions.height + 'px';
+      node.style.maxWidth = 'unset';
+      node.style.maxHeight = 'unset';
+
+      // Wait for style to apply
+      await new Promise(r => setTimeout(r, 50));
+
+      const canvas = await html2canvas(node, {
+        scale: 2,
+        backgroundColor: '#fff',
+      });
+
       const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      link.download = `postready-${width}x${height}.png`;
+      link.href = canvas.toDataURL(`image/${format.toLowerCase()}`);
+      link.download = `postready-${platform}-${dimensions.width}x${dimensions.height}.${format.toLowerCase()}`;
       link.click();
+
       // Restore style
       node.style.cssText = prevStyle;
-    });
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   return (
-    <div className="flex flex-col p-4 gap-6">
-      <div className="bg-gray-50 p-6 rounded-lg">
-        <h2 className="text-xl font-semibold mb-4">Content Settings</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
+    <div className="flex flex-col lg:flex-row gap-6 p-4">
+      {/* Content Settings Column */}
+      <div className="flex-1">
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4">Content Settings</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Social Handle
+              </label>
+              <input
+                type="text"
+                value={socialHandle}
+                onChange={(e) => setSocialHandle(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder="@username"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Tagline
+              </label>
+              <input
+                type="text"
+                value={tagline}
+                onChange={(e) => setTagline(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder="Your tagline here"
+              />
+            </div>
+          </div>
+          <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Social Handle
+              Content Title (Optional)
             </label>
             <input
               type="text"
-              value={socialHandle}
-              onChange={(e) => setSocialHandle(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded"
-              placeholder="@username"
+              placeholder="The title of your content"
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Tagline
+              Content (Paste your text below)
             </label>
-            <input
-              type="text"
-              value={tagline}
-              onChange={(e) => setTagline(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Your tagline here"
+            <textarea
+              value={content}
+              onChange={handleContentChange}
+              className="w-full p-2 border border-gray-300 rounded h-64 font-mono"
+              placeholder="Paste your content here. Use bullet points (•, -, *) for list items."
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Format: Use section titles followed by bullet points (•, -, *) for each item.
+            </p>
           </div>
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Content Title (Optional)
-          </label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="The title of your content"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Content (Paste your text below)
-          </label>
-          <textarea
-            value={content}
-            onChange={handleContentChange}
-            className="w-full p-2 border border-gray-300 rounded h-64 font-mono"
-            placeholder="Paste your content here. Use bullet points (•, -, *) for list items."
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            Format: Use section titles followed by bullet points (•, -, *) for each item.
-          </p>
         </div>
       </div>
-      <div className="bg-gray-50 p-6 rounded-lg">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Preview</h2>
-          <div className="flex gap-2 items-center">
-            <select
-              value={exportSize.label}
-              onChange={e => {
-                const size = EXPORT_SIZES.find(s => s.label === e.target.value);
-                if (size) setExportSize(size);
+
+      {/* Preview and Export Column */}
+      <div className="flex-1">
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Preview</h2>
+            <ExportContainer
+              onExport={handleExport}
+              isExporting={isExporting}
+              selectedDimensions={exportDimensions}
+              onDimensionsChange={setExportDimensions}
+            />
+          </div>
+          <div className="flex justify-center">
+            <div
+              ref={canvasRef}
+              className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-md"
+              style={{
+                width: MOBILE_WIDTH,
+                height: MOBILE_HEIGHT,
+                maxWidth: '100%',
+                maxHeight: '70vh',
+                aspectRatio: `${MOBILE_WIDTH} / ${MOBILE_HEIGHT}`,
+                position: 'relative',
+                boxShadow: '0 0 0 8px #e5e7eb', // outer border for phone look
+                display: 'flex',
+                alignItems: 'stretch',
+                justifyContent: 'center',
               }}
-              className="border border-gray-300 rounded px-2 py-1 text-sm"
             >
-              {EXPORT_SIZES.map(size => (
-                <option key={size.label} value={size.label}>{size.label}</option>
-              ))}
-            </select>
-            <button
-              onClick={exportAsImage}
-              className="flex items-center gap-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-            >
-              <Download size={16} />
-              Export as Image
-            </button>
+              {renderPreview()}
+            </div>
           </div>
-        </div>
-        <div className="flex justify-center">
-          <div
-            ref={canvasRef}
-            className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-md"
-            style={{
-              width: MOBILE_WIDTH,
-              height: MOBILE_HEIGHT,
-              maxWidth: '100%',
-              maxHeight: '70vh',
-              aspectRatio: `${MOBILE_WIDTH} / ${MOBILE_HEIGHT}`,
-              position: 'relative',
-              boxShadow: '0 0 0 8px #e5e7eb', // outer border for phone look
-              display: 'flex',
-              alignItems: 'stretch',
-              justifyContent: 'center',
-            }}
-          >
-            {renderPreview()}
+          <div className="text-xs text-gray-400 mt-2 text-center">
+            Mobile preview (export will use selected size)
           </div>
-        </div>
-        <div className="text-xs text-gray-400 mt-2 text-center">
-          Mobile preview (export will use selected size)
         </div>
       </div>
     </div>

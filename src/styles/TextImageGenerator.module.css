@@ -1,0 +1,116 @@
+:root {
+  /* Layout Constants */
+  --preview-width: 720px;
+  --preview-max-height: 1920px;
+  
+  /* Typography */
+  --font-size-base: 16px;
+  --font-size-min: 14px;
+  --font-size-title: 24px;
+  
+  /* Spacing */
+  --section-spacing: 24px;
+  --section-spacing-compressed: 16px;
+  --identity-spacing: 24px;
+  
+  /* Line Heights */
+  --line-height-normal: 1.6;
+  --line-height-compressed: 1.3;
+}
+
+.previewContainer {
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.previewContent {
+  background-color: #fff;
+  padding: 32px 24px;
+  width: 100%;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  border-radius: 16px;
+}
+
+.identitySection {
+  margin-bottom: var(--identity-spacing);
+}
+
+.handle {
+  font-weight: 600;
+  font-size: 18px;
+  color: #000;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.tagline {
+  font-weight: 400;
+  font-size: 14px;
+  color: #777;
+  line-height: var(--line-height-normal);
+  margin-bottom: var(--identity-spacing);
+}
+
+.title {
+  font-size: var(--font-size-title);
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  line-height: var(--line-height-compressed);
+  letter-spacing: -0.01em;
+  color: #111;
+}
+
+.divider {
+  height: 1px;
+  background-color: #eee;
+  margin: 1.5rem 0;
+}
+
+.section {
+  margin-bottom: var(--current-section-spacing);
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-size: calc(var(--current-font-size) + 2px);
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 0.5rem;
+  line-height: var(--line-height-compressed);
+  letter-spacing: -0.01em;
+}
+
+.bulletList {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: var(--current-section-spacing);
+}
+
+.bulletItem {
+  font-size: var(--current-font-size);
+  line-height: var(--current-line-height);
+  color: #333;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.bulletItem:last-child {
+  margin-bottom: 0;
+}
+
+/* Ghost Preview for calculations */
+.ghostPreview {
+  position: absolute;
+  visibility: hidden;
+  z-index: -1;
+} 
