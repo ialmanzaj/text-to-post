@@ -106,9 +106,14 @@ const TextImageGenerator = () => {
         backgroundColor: '#fff',
       });
 
+      // Create filename from title or default
+      const baseFileName = title
+        ? title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+        : 'social-post';
+
       const link = document.createElement('a');
       link.href = canvas.toDataURL(`image/${format.toLowerCase()}`);
-      link.download = `postready-${platform}-${dimensions.width}x${dimensions.height}.${format.toLowerCase()}`;
+      link.download = `${baseFileName}-${platform}-${dimensions.width}x${dimensions.height}.${format.toLowerCase()}`;
       link.click();
 
       // Restore style
