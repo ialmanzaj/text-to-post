@@ -1,0 +1,24 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Tailwind Usage
+
+<version>1.0.0</version>
+
+## Context
+- All component and utility files
+
+## Requirements
+- Use Tailwind utility classes for all styling
+- Use `cn` utility for dynamic class merging
+- Avoid inline styles except for dynamic layout or export logic
+
+## Examples
+<example>
+<div className="bg-white p-4 rounded" />
+</example>
+<example type="invalid">
+<div style={{ background: 'white', padding: 16, borderRadius: 8 }} />
+</example>

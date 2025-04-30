@@ -1,0 +1,25 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# React Component Structure
+
+<version>1.0.0</version>
+
+## Context
+- All React component files
+
+## Requirements
+- Use functional components only
+- Use React hooks for state and lifecycle
+- Export components as default or named exports
+- Place reusable UI in `src/components/ui/`
+
+## Examples
+<example>
+export default function Button({ children }: { children: React.ReactNode }) { return <button>{children}</button> }
+</example>
+<example type="invalid">
+class Button extends React.Component { render() { return <button>{this.props.children}</button> } }
+</example>

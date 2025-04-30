@@ -1,0 +1,19 @@
+# Accessibility
+
+<version>1.0.0</version>
+
+## Context
+- All UI and interactive elements
+
+## Requirements
+- All buttons and inputs must be keyboard accessible
+- Use appropriate ARIA labels where needed
+- Ensure color contrast and font size meet accessibility standards
+
+## Examples
+<example>
+<button aria-label="Export as Image">Export</button>
+</example>
+<example type="invalid">
+<div onClick={exportAsImage}>Export</div>
+</example>

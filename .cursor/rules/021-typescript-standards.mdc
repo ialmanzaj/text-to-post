@@ -1,0 +1,26 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# TypeScript Strictness
+
+<version>1.0.0</version>
+
+## Context
+- All TypeScript and TSX files
+- Applies to all new and modified code
+
+## Requirements
+- Use explicit types for all function parameters and return values
+- No usage of `any` type unless absolutely necessary and justified with a comment
+- All components and helpers must be typed
+- Resolve all TypeScript errors before commit
+
+## Examples
+<example>
+function add(a: number, b: number): number { return a + b }
+</example>
+<example type="invalid">
+function add(a, b) { return a + b }
+</example>

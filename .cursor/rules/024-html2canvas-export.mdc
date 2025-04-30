@@ -1,0 +1,24 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# html2canvas Export
+
+<version>1.0.0</version>
+
+## Context
+- Image export logic
+
+## Requirements
+- Use `html2canvas(node, { scale: 2, backgroundColor: '#fff' })`
+- Restore DOM state after export
+- Support multiple export sizes
+
+## Examples
+<example>
+html2canvas(node, { scale: 2, backgroundColor: '#fff' })
+</example>
+<example type="invalid">
+html2canvas(node)
+</example>
