@@ -1,89 +1,76 @@
-# React + Vite + TypeScript Template (react-vite-ui)
+# Text-to-Post Generator
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dan5py/react-vite-ui/blob/main/LICENSE)
+A web-based tool for turning your text content into visually appealing social media images. Designed for creators and marketers who want a fast, flexible, and user-friendly way to generate post images for platforms like Instagram, LinkedIn, and Twitter.
 
-A React + Vite template powered by shadcn/ui.
+## Features
+- Input, format, and preview text content for social media posts
+- Export formatted content as high-resolution images in multiple aspect ratios
+- User-friendly interface for editing, previewing, and exporting
+- Responsive design for desktop and mobile
+- Extensible architecture for future themes and templates
 
-> [!NOTE]
-> This template uses Tailwind v3, if you want to use Tailwind v4, check the [tw4 branch](https://github.com/dan5py/react-vite-shadcn-ui/tree/tw4).
+## Why Use This Tool?
+Manual design of text posts is time-consuming and inconsistent. This app streamlines the process, allowing you to:
+- Quickly turn text into images with clear visual structure
+- Preview posts in real time
+- Export for multiple social media requirements
 
-## 🎉 Features
+## How It Works
+1. Paste or type your content (supports section titles and bullet points)
+2. The app formats your content into a visually appealing layout
+3. Preview your post in a mobile frame
+4. Export as a high-resolution image in your chosen aspect ratio
 
-- **React** - A JavaScript library for building user interfaces.
-- **Vite** - A fast, opinionated frontend build tool.
-- **TypeScript** - A typed superset of JavaScript that compiles to plain JavaScript.
-- **Tailwind CSS** - A utility-first CSS framework. (`v3`)
-- **Tailwind Prettier Plugin** - A Prettier plugin for formatting Tailwind CSS classes.
-- **ESLint** - A pluggable linting utility for JavaScript and TypeScript.
-- **PostCSS** - A tool for transforming CSS with JavaScript.
-- **Autoprefixer** - A PostCSS plugin to parse CSS and add vendor prefixes.
-- **shadcn/ui** - Beautifully designed components that you can copy and paste into your apps.
+## Tech Stack
+- **React** (with TypeScript) for UI and logic
+- **Tailwind CSS** for styling
+- **html2canvas** for DOM-to-image export
+- **Lucide React** for icons
+- **Vite** for fast development and build
 
-## ⚙️ Prerequisites
+## Project Structure
+- All source code in `src/`
+- Main component: `src/components/TextImageGenerator.tsx`
+- UI components: `src/components/ui/`
 
-Make sure you have the following installed on your development machine:
+## Getting Started
 
-- Node.js (version 22 or above)
-- pnpm (package manager)
+### Prerequisites
+- Node.js >= 22.0.0
+- npm or yarn
 
-## 🚀 Getting Started
-
-Follow these steps to get started with the react-vite-ui template:
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/dan5py/react-vite-ui.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
-   cd react-vite-ui
-   ```
-
-3. Install the dependencies:
-
-   ```bash
-   pnpm install
-   ```
-
-4. Start the development server:
-
-   ```bash
-   pnpm dev
-   ```
-
-## 📜 Available Scripts
-
-- pnpm dev - Starts the development server.
-- pnpm build - Builds the production-ready code.
-- pnpm lint - Runs ESLint to analyze and lint the code.
-- pnpm preview - Starts the Vite development server in preview mode.
-
-## 📂 Project Structure
-
-The project structure follows a standard React application layout:
-
-```python
-react-vite-ui/
-  ├── node_modules/      # Project dependencies
-  ├── public/            # Public assets
-  ├── src/               # Application source code
-  │   ├── components/    # React components
-  │   │   └── ui/        # shadc/ui components
-  │   ├── styles/        # CSS stylesheets
-  │   ├── lib/           # Utility functions
-  │   ├── App.tsx        # Application entry point
-  │   └── index.tsx      # Main rendering file
-  ├── eslint.config.js     # ESLint configuration
-  ├── index.html         # HTML entry point
-  ├── postcss.config.js  # PostCSS configuration
-  ├── tailwind.config.ts # Tailwind CSS configuration
-  ├── tsconfig.json      # TypeScript configuration
-  └── vite.config.ts     # Vite configuration
+### Installation
+```bash
+git clone <repo-url>
+cd react-vite-ui
+npm install # or yarn install
 ```
 
-## 📄 License
+### Development
+```bash
+npm run dev # or yarn dev
+```
 
-This project is licensed under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) file for details.
+### Build
+```bash
+npm run build # or yarn build
+```
+
+### Lint
+```bash
+npm run lint
+```
+
+## Current Status
+- MVP is functional: input, preview, and export text-to-image workflow works
+- TypeScript errors resolved, codebase is type-safe
+- Documentation is up to date (see `memory-bank/` for project context)
+
+## Roadmap
+- More export sizes and templates for additional platforms
+- Theming and style customization
+- Improved accessibility and mobile responsiveness
+- Refactor parsing/rendering logic into reusable helpers
+
+## License
+MIT License. See [LICENSE](LICENSE) for details. 
